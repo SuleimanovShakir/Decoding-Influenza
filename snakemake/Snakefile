@@ -1,0 +1,59 @@
+URL="ftp://ftp.sra.ebi.ac.uk/vol1/fastq/SRR170/009/SRR1705859/SRR1705859.fastq.gz"
+
+rule data_download:
+    output:
+        "SRR1705859.fastq.gz"
+    shell:
+        "wget -O {output} {URL}"
+
+rule bwa_index:
+    input:
+        "{reference}.fasta"
+    output:
+        "{reference}.fasta.amb",
+        "{reference}.fasta.ann",
+        "{reference}.fasta.bwt",
+        "{reference}.fasta.pac",
+        "{reference}.fasta.sa"
+    shell:
+        "bwa index {input}"
+
+rule bwa_align:
+    input:
+        "{reference}.fasta.amb",
+        "{reference}.fasta.ann",
+        "{reference}.fasta.bwt",
+        "{reference}.fasta.pac",
+        "{reference}.fasta.sa",
+        ref="{reference}.fasta",
+        reads="{sample}.fastq.gz"
+    output:
+        temporary("{reference}.{sample}.unsorted.bam")
+    shell:
+        "bwa mem {input.ref} {input.reads} | samtools view -b > {output}"
+
+rule bam_sort:
+    input:
+        rules.bwa_align.output     
+    output:
+        "{reference}.{sample}.sorted.bam"
+    shell:
+        "samtools sort {input} > {output}"
+
+rule bam_index:
+    input:
+        rules.bam_sort.output  
+    output:
+        "{reference}.{sample}.sorted.bam.bai"
+    shell: 
+        "samtools index {input}"
+
+rule mpileup_run:
+    input:
+        refer="{reference}.fasta",
+        alignment="{reference}.{sample}.sorted.bam"
+    output:
+        "{reference}.{sample}.mpileup"
+    shell:
+        "samtools mpileup -f {input.refer} -d 0 {input.alignment} > {output}"
+	

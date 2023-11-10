@@ -41,7 +41,7 @@ Here we provide the list of final mutations which were distinguished from sequen
 |307|C|T | 0.94%| MIS |
 |1458|T|C|0.84%| SYN |
 
-_Table 1. Common and rare variants in patient’s sequencing after trimming by 0.5% cut-off.
+_Table 1. Common and rare variants in patient’s sequencing after trimming by 0.5% cut-off_
 
 According to [Munoz et. al.](https://pubmed.ncbi.nlm.nih.gov/15629357/) we have performed epitope mapping. This substitution of Proline to Serine alter epitope D conformation as proline is important for the protein secondary structure. 
 

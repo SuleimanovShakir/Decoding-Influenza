@@ -1,6 +1,6 @@
 # Decoding Influenza: A Bioinformatics Inquiry into the Mysteries of Flu Infection
 
-Anastsiia Efremova, Shakir Suleimanov
+Natalia Erofeeva, Shakir Suleimanov
 
 _Bioinformatics Institute_
 
